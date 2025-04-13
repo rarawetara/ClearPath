@@ -17,8 +17,10 @@ export default function GoalToDo({ goalId }: GoalToDoProps) {
       id: Date.now().toString(),
       text: input.trim(),
       done: false,
+      goalId: goalId,
+      date: new Date().toISOString(),
     };
-    add(goalId, newTask);
+    add(newTask);
     setInput("");
   };
 

@@ -4,11 +4,13 @@ export type Task = {
   id: string;
   text: string;
   done: boolean;
+  goalId: string;
+  date: string; // ISO строка
 };
 
 type TaskStore = {
   tasksByGoal: Record<string, Task[]>;
-  addTask: (goalId: string, task: Task) => void;
+  addTask: (task: Task) => void;
   toggleTask: (goalId: string, taskId: string) => void;
   setTasks: (goalId: string, tasks: Task[]) => void;
 };
@@ -16,11 +18,11 @@ type TaskStore = {
 export const useTaskStore = create<TaskStore>((set) => ({
   tasksByGoal: {},
 
-  addTask: (goalId, task) =>
+  addTask: (task) =>
     set((state) => ({
       tasksByGoal: {
         ...state.tasksByGoal,
-        [goalId]: [...(state.tasksByGoal[goalId] || []), task],
+        [task.goalId]: [...(state.tasksByGoal[task.goalId] || []), task],
       },
     })),
 

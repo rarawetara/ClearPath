@@ -1,7 +1,8 @@
 import { useState } from "react";
 import PromptForm from "./components/PromptForm";
 import GoalBoard from "./components/GoalBoard";
-
+import TaskBoard from "./components/TaskBoard";
+import CalendarBoard from "./components/CalendarBoard";
 interface Message {
   from: "user" | "coach";
   text: string;
@@ -10,7 +11,7 @@ interface Message {
 export default function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "goals">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "goals" | "tasks" | "calendar">("chat");
 
   const handlePrompt = async (text: string) => {
     setMessages((prev) => [...prev, { from: "user", text }]);
@@ -42,6 +43,22 @@ export default function App() {
         >
           🎯 Цели
         </button>
+        <button
+          onClick={() => setActiveTab("tasks")}
+          className={`px-3 py-1 rounded text-sm ${
+            activeTab === "tasks" ? "bg-black text-white" : "bg-gray-200"
+          }`}
+        >
+          📋 Задачи
+        </button>
+        <button
+  onClick={() => setActiveTab("calendar")}
+  className={`px-3 py-1 rounded text-sm ${
+    activeTab === "calendar" ? "bg-black text-white" : "bg-gray-200"
+  }`}
+>
+  📆 Календарь
+</button>
       </div>
 
       {activeTab === "chat" && (
@@ -66,8 +83,9 @@ export default function App() {
           <PromptForm onSubmit={handlePrompt} />
         </>
       )}
-
+{activeTab === "calendar" && <CalendarBoard />}
       {activeTab === "goals" && <GoalBoard />}
+      {activeTab === "tasks" && <TaskBoard />}
     </div>
   );
 }
