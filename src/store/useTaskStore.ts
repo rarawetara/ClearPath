@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 export type Task = {
   id: string;
@@ -77,3 +77,9 @@ export const useStorageSync = () => {
     }
   }, [tasksByGoal]);
 };
+
+export const useTasksByGoal = (goalId: string) =>
+  useSyncExternalStore(
+    useTaskStore.subscribe,
+    () => useTaskStore.getState().tasksByGoal[goalId] || []
+  );

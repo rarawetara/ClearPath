@@ -6,7 +6,9 @@ interface GoalToDoProps {
 }
 
 export default function GoalToDo({ goalId }: GoalToDoProps) {
-  const tasks = useTaskStore((s) => s.tasksByGoal[goalId] || []);
+  const tasks = useTaskStore(
+    React.useCallback((s) => s.tasksByGoal[goalId] || [], [goalId])
+  );
   const add = useTaskStore((s) => s.addTask);
   const toggle = useTaskStore((s) => s.toggleTask);
   const [input, setInput] = useState("");
