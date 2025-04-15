@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PromptForm from "./components/PromptForm";
 import GoalBoard from "./components/GoalBoard";
 import TaskBoard from "./components/TaskBoard";
@@ -21,7 +21,15 @@ export default function App() {
     name: string;
   } | null>(null);
   useStorageSync();
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const stored = localStorage.getItem("chatMessages");
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("chatMessages", JSON.stringify(messages));
+  }, [messages]);
+
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<
     "chat" | "goals" | "tasks" | "calendar" | "overview"
