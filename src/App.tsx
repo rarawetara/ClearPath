@@ -16,11 +16,16 @@ interface Message {
 }
 
 export default function App() {
-  const [contextGoal, setContextGoal] = useState<{ id: string; name: string } | null>(null);
+  const [contextGoal, setContextGoal] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
   useStorageSync();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "goals" | "tasks" | "calendar" | "overview">("chat");
+  const [activeTab, setActiveTab] = useState<
+    "chat" | "goals" | "tasks" | "calendar" | "overview"
+  >("chat");
   const addTask = useTaskStore((s) => s.addTask);
 
   const handlePrompt = async (text: string) => {
@@ -58,21 +63,31 @@ export default function App() {
         goalId: contextGoal.id,
       };
 
+      console.log("📌 Добавляю задачу:", newTask);
+
       addTask(newTask);
 
       setMessages((prev) => [
         ...prev,
-        { from: "coach", text: `Задача добавлена в цель "${contextGoal.name}": ${taskText}` },
+        {
+          from: "coach",
+          text: `Задача добавлена в цель "${contextGoal.name}": ${taskText}`,
+        },
       ]);
       return;
     }
+
+    console.log("🧠 Контекст цели:", contextGoal);
 
     setLoading(true);
 
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
-        { from: "coach", text: "Готово! Я получил твой запрос, но GPT сейчас спит. Всё остальное работает 🔧" },
+        {
+          from: "coach",
+          text: "Готово! Я получил твой запрос, но GPT сейчас спит. Всё остальное работает 🔧",
+        },
       ]);
     }, 500);
 
@@ -166,7 +181,8 @@ export default function App() {
 
       {contextGoal && (
         <div className="text-xs text-center text-gray-500 mb-2">
-          🎯 Текущая цель: <span className="font-medium">{contextGoal.name}</span>
+          🎯 Текущая цель:{" "}
+          <span className="font-medium">{contextGoal.name}</span>
         </div>
       )}
 
