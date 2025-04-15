@@ -4,12 +4,14 @@ import GoalBoard from "./components/GoalBoard";
 import TaskBoard from "./components/TaskBoard";
 import CalendarBoard from "./components/CalendarBoard";
 import CoachOverview from "./components/CoachOverview";
+import { useStorageSync } from "./store/useTaskStore";
 interface Message {
   from: "user" | "coach";
   text: string;
 }
 
 export default function App() {
+  useStorageSync();
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<"chat" | "goals" | "tasks" | "calendar" | "overview">("chat");
