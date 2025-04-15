@@ -1,8 +1,8 @@
-import React from "react"; // ← ошибка: лишний пробел и двойные кавычки
+import React from "react";
 
 const TestComponent = () => {
-  const message = "Привет мир"; // ← одинарные кавычки, можно придраться
-  return <div> {message} </div>; // ← пробелы внутри JSX
+  const message = "Привет мир";
+  return <div>{message}</div>;
 };
 
 export default TestComponent;

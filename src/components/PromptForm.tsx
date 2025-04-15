@@ -1,20 +1,27 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function PromptForm({ onSubmit }: { onSubmit: (input: string) => void }) {
+export default function PromptForm({
+  onSubmit,
+}: {
+  onSubmit: (input: string) => void;
+}) {
   const [text, setText] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!text.trim()) return;
     onSubmit(text.trim());
     setText("");
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e as any);
+      const form = e.currentTarget?.closest("form");
+      if (form) {
+        form.requestSubmit();
+      }
     }
   };
 
