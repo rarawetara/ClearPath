@@ -3,6 +3,7 @@ import PromptForm from "./components/PromptForm";
 import GoalBoard from "./components/GoalBoard";
 import TaskBoard from "./components/TaskBoard";
 import CalendarBoard from "./components/CalendarBoard";
+import CoachOverview from "./components/CoachOverview";
 interface Message {
   from: "user" | "coach";
   text: string;
@@ -11,7 +12,7 @@ interface Message {
 export default function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "goals" | "tasks" | "calendar">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "goals" | "tasks" | "calendar" | "overview">("chat");
 
   const handlePrompt = async (text: string) => {
     setMessages((prev) => [...prev, { from: "user", text }]);
@@ -59,6 +60,14 @@ export default function App() {
 >
   📆 Календарь
 </button>
+<button
+  onClick={() => setActiveTab("overview")}
+  className={`px-3 py-1 rounded text-sm ${
+    activeTab === "overview" ? "bg-black text-white" : "bg-gray-200"
+  }`}
+>
+  🧠 Обзор
+</button>
       </div>
 
       {activeTab === "chat" && (
@@ -86,6 +95,7 @@ export default function App() {
 {activeTab === "calendar" && <CalendarBoard />}
       {activeTab === "goals" && <GoalBoard />}
       {activeTab === "tasks" && <TaskBoard />}
+      {activeTab === "overview" && <CoachOverview />}
     </div>
   );
 }
